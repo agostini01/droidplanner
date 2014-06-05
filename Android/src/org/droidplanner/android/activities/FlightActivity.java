@@ -17,10 +17,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SlidingDrawer;
 
+import com.MAVLink.Messages.ardupilotmega.msg_digicam_control;
+import com.MAVLink.Messages.enums.MAV_AUTOPILOT;
+import com.MAVLink.Messages.enums.MAV_DATA_STREAM;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -39,6 +44,8 @@ public class FlightActivity extends DrawerNavigationUI implements
 
 	private boolean mIsPhone;
 
+	private Button picButton;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,6 +53,21 @@ public class FlightActivity extends DrawerNavigationUI implements
 
 		fragmentManager = getSupportFragmentManager();
 		failsafeTextView = findViewById(R.id.failsafeTextView);
+		
+		picButton = (Button) findViewById(R.id.buttonPIC);
+		picButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Log.d("pic", "Take Pic");
+				msg_digicam_control msg = new msg_digicam_control();
+				msg.target_system = 1;
+				msg.target_component = 1;
+				msg.shot = 1;
+				drone.MavClient.sendMavPacket(msg.pack());
+				
+			}
+		});
 
 		mSlidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawerRight);
 		mSlidingDrawer
