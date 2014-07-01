@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ground_speed_layout"
+    style="@style/transparentLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:background="@drawable/ground_speed_bg"
+    android:baselineAligned="true"
+    android:paddingBottom="1dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
+
+    <TextView
+        android:id="@+id/telemValue"
+        style="@style/largeTelemetryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/telemetry_default_value" />
+
+    <TextView
+        android:id="@+id/telemUnits"
+        style="@style/unitText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/telemValue"
+        android:layout_toRightOf="@+id/telemValue"
+        android:text="@string/speed_unit"
+        android:textColor="@color/ground_speed_units" />
+
+    <TextView
+        android:id="@+id/telemLabel"
+        style="@style/textLabels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/telemValue"
+        android:text="@string/ground_speed_label"
+        android:textColor="@color/ground_speed_label" />
+
+</RelativeLayout>

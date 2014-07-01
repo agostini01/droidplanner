@@ -6,6 +6,7 @@ import org.droidplanner.core.drone.Drone;
 import org.droidplanner.core.drone.DroneInterfaces.DroneEventsType;
 import org.droidplanner.core.drone.DroneInterfaces.OnDroneListener;
 import org.droidplanner.android.widgets.AttitudeIndicator;
+import org.droidplanner.android.widgets.telemetryItem.TelemetryData;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class TelemetryFragment extends Fragment implements OnDroneListener {
@@ -23,12 +25,8 @@ public class TelemetryFragment extends Fragment implements OnDroneListener {
 	private TextView roll;
 	private TextView yaw;
 	private TextView pitch;
-	private TextView groundSpeed;
-	private TextView airSpeed;
-	private TextView climbRate;
-	private TextView altitude;
-	private TextView targetAltitude;
 	private boolean headingModeFPV;
+	private LinearLayout items;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,14 +39,16 @@ public class TelemetryFragment extends Fragment implements OnDroneListener {
 		yaw = (TextView) view.findViewById(R.id.yawValueText);
 		pitch = (TextView) view.findViewById(R.id.pitchValueText);
 
-		groundSpeed = (TextView) view.findViewById(R.id.groundSpeedValue);
-		airSpeed = (TextView) view.findViewById(R.id.airSpeedValue);
-		climbRate = (TextView) view.findViewById(R.id.climbRateValue);
-		altitude = (TextView) view.findViewById(R.id.altitudeValue);
-		targetAltitude = (TextView) view.findViewById(R.id.targetAltitudeValue);
+		items = (LinearLayout) view.findViewById(R.id.telemItems);
+		setupTelemetryItems(items);
 
 		drone = ((DroidPlannerApp) getActivity().getApplication()).drone;
 		return view;
+	}
+
+	private void setupTelemetryItems(LinearLayout items) {
+		TelemetryData groundSpeed = new TelemetryData(getActivity());		
+		items.addView(groundSpeed);
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class TelemetryFragment extends Fragment implements OnDroneListener {
 
 	public void onSpeedAltitudeAndClimbRateUpdate(Drone drone) {
 		airSpeed.setText(String.format("%3.1f", drone.speed.getAirSpeed()));
-		groundSpeed
+		groundSpeed.groundSpeed
 				.setText(String.format("%3.1f", drone.speed.getGroundSpeed()));
 		climbRate
 				.setText(String.format("%3.1f", drone.speed.getVerticalSpeed()));
