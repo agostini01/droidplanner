@@ -1,12 +1,15 @@
 // License: GPL. For details, see Readme.txt file.
 package org.openstreetmap.gui.jmapviewer;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
@@ -23,6 +26,7 @@ public class MapMarkerCircle extends MapObjectImpl implements MapMarker {
     Coordinate coord;
     double radius;
     STYLE markerStyle;
+	private Image img;
 
     public MapMarkerCircle(Coordinate coord, double radius) {
         this(null, null, coord, radius);
@@ -47,6 +51,13 @@ public class MapMarkerCircle extends MapObjectImpl implements MapMarker {
         this.markerStyle = markerStyle;
         this.coord = coord;
         this.radius = radius;
+        
+        try {
+			img = ImageIO.read(new File("../Android/res/drawable-hdpi/quad.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public Coordinate getCoordinate(){
@@ -72,17 +83,7 @@ public class MapMarkerCircle extends MapObjectImpl implements MapMarker {
         int size_h = radio;
         int size = size_h * 2;
 
-        if (g instanceof Graphics2D && getBackColor()!=null) {
-            Graphics2D g2 = (Graphics2D) g;
-            Composite oldComposite = g2.getComposite();
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-            g2.setPaint(getBackColor());
-            g.fillOval(position.x - size_h, position.y - size_h, size, size);
-            g2.setComposite(oldComposite);
-        }
-        g.setColor(getColor());
-        g.drawOval(position.x - size_h, position.y - size_h, size, size);
-
+        g.drawImage(img,50,50,null);
         if(getLayer()==null||getLayer().isVisibleTexts()) paintText(g, position);
     }
 
