@@ -2,7 +2,7 @@ package org.droidplanner.desktop;
 
 import org.droidplanner.desktop.logic.Logic;
 import org.droidplanner.desktop.ui.Map;
-import org.droidplanner.desktop.ui.Menu;
+import org.droidplanner.desktop.ui.MainUI;
 
 public class Application {
 
@@ -13,11 +13,11 @@ public class Application {
 		logic = new Logic();
 		map = new Map();
 		map.setVisible(true);
-		map.setJMenuBar(new Menu(logic.drone));
+		map.setJMenuBar(new MainUI(logic.dronesMap));
 
 		new Thread(logic).start();
 
-		logic.drone.events.addDroneListener(map);
+		logic.dronesMap.get(0).events.addDroneListener(map);
 	}
 
 }

@@ -2,6 +2,7 @@ package org.droidplanner.desktop.logic;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.HashMap;
 
 import org.droidplanner.core.MAVLink.MAVLinkStreams.MAVLinkOutputStream;
 import org.droidplanner.core.MAVLink.MavLinkMsgHandler;
@@ -17,18 +18,19 @@ import com.MAVLink.Messages.MAVLinkMessage;
 import com.MAVLink.Messages.MAVLinkPacket;
 
 public class Logic implements Runnable {
-	public Drone drone;
+	public HashMap<Integer, Drone> dronesMap;
 	private MavLinkMsgHandler mavlinkHandler;
 	protected Connection link = new Connection(14550);
 
 	public Logic() {
+		this.dronesMap  = new HashMap<Integer, Drone>();
 		setup();
+		
 	}
 
 	private void setup() {
-		drone = droneFactory();
-		mavlinkHandler = new MavLinkMsgHandler(drone);
-
+		dronesMap.put(0, droneFactory());
+		mavlinkHandler = new MavLinkMsgHandler(dronesMap.get(0));
 	}
 
 	private Drone droneFactory() {

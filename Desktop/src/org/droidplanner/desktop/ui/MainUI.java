@@ -2,6 +2,7 @@ package org.droidplanner.desktop.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.Icon;
 import javax.swing.JDialog;
@@ -12,18 +13,20 @@ import javax.swing.JMenuItem;
 
 import org.droidplanner.core.drone.Drone;
 
-public class Menu extends JMenuBar implements ActionListener {
+public class MainUI extends JMenuBar implements ActionListener {
 	private static final long serialVersionUID = 3070514693880578004L;
 
 	private static final String LOAD_MISSION = "Load Mission";
 	private static final String LOAD_PARAMETERS = "Load Parameters";
 	private static final String OPEN_SETTINGS = "Open Settings";
 	
+	private HashMap<Integer, Drone> dronesMap;
 	private Drone drone;
 
-	public Menu(Drone drone) {
+	public MainUI(HashMap<Integer, Drone> logicDronesMap) {
 		super();
-		this.drone = drone;
+		this.dronesMap = logicDronesMap;
+		this.drone = dronesMap.get(0);
 		JMenu droneMenu = new JMenu("Drone");
 		JMenuItem loadMission = new JMenuItem(LOAD_MISSION);
 		JMenuItem loadParameters = new JMenuItem(LOAD_PARAMETERS);
